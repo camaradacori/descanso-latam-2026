@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Descanso remunerado en Latinoamérica 2026 — análisis normalizado</title>
+<style>
+:root{
+  --azul:#0b3d91; --azul2:#1e5fd0; --azul3:#4f8ae8; --azul4:#a8c8f5; --azul5:#e3edfc;
+  --tinta:#0d1b33; --gris:#5b6a85; --linea:#d6e0f0; --fondo:#f4f8fe; --blanco:#fff;
+  --alerta:#c2410c; --alerta-bg:#fff4ed; --ok:#0f766e;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--fondo);color:var(--tinta);
+ font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+ line-height:1.55;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1080px;margin:0 auto;padding:0 22px 80px}
+section{margin:0 0 18px}
+
+/* ---------- HERO ---------- */
+.hero{background:linear-gradient(150deg,#0b3d91 0%,#154fae 55%,#2f6fd6 100%);color:#fff;
+ padding:54px 0 46px;margin-bottom:34px;position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;right:-120px;top:-120px;width:420px;height:420px;
+ border-radius:50%;background:rgba(255,255,255,.06)}
+.hero .wrap{padding-bottom:0;position:relative;z-index:2}
+.kicker{font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;color:#a8c8f5;font-weight:700;margin-bottom:16px}
+h1{font-size:clamp(28px,4.4vw,46px);line-height:1.12;margin:0 0 18px;font-weight:800;letter-spacing:-.02em;max-width:19ch}
+.hero p{font-size:clamp(15px,1.7vw,18px);color:#dbe8fb;max-width:66ch;margin:0 0 26px}
+.hero-stats{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+.hstat{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);
+ border-radius:10px;padding:13px 17px;min-width:150px;flex:1 1 150px}
+.hstat b{display:block;font-size:26px;font-weight:800;letter-spacing:-.02em}
+.hstat span{font-size:12px;color:#c3d9f8;line-height:1.35;display:block;margin-top:3px}
+
+/* ---------- TIPOGRAFIA ---------- */
+h2{font-size:clamp(21px,2.7vw,28px);margin:0 0 10px;font-weight:800;letter-spacing:-.015em;color:var(--azul)}
+h3{font-size:16px;margin:0 0 8px;font-weight:700}
+.lead{color:var(--gris);max-width:76ch;margin:0 0 22px;font-size:15.5px}
+.num{font-variant-numeric:tabular-nums}
+
+.card{background:var(--blanco);border:1px solid var(--linea);border-radius:14px;
+ padding:26px 26px 24px;box-shadow:0 1px 3px rgba(13,27,51,.05)}
+.card+.card{margin-top:18px}
+
+/* ---------- PROBLEMA / UNIDADES ---------- */
+.units{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:14px;margin-top:6px}
+.unit{border:1px solid var(--linea);border-radius:11px;padding:16px 17px;background:var(--azul5)}
+.unit b{display:block;color:var(--azul);font-size:14.5px;margin-bottom:5px}
+.unit p{margin:0;font-size:13.2px;color:var(--gris)}
+.unit .eq{margin-top:10px;font-size:12.5px;font-weight:700;color:var(--tinta);
+ background:#fff;border:1px solid var(--linea);border-radius:6px;padding:6px 9px;display:inline-block}
+
+.flag-note{background:var(--alerta-bg);border-left:4px solid var(--alerta);border-radius:0 9px 9px 0;
+ padding:15px 18px;margin-top:20px;font-size:14px}
+.flag-note b{color:var(--alerta)}
+.flag-note ul{margin:9px 0 0;padding-left:19px}
+.flag-note li{margin-bottom:5px}
+
+/* ---------- CONTROLES ---------- */
+.ctrl{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 22px}
+.ctrl button{border:1px solid var(--linea);background:#fff;color:var(--gris);
+ padding:9px 15px;border-radius:8px;font-size:13.3px;font-weight:600;cursor:pointer;
+ font-family:inherit;transition:.14s}
+.ctrl button:hover{border-color:var(--azul3);color:var(--azul)}
+.ctrl button.on{background:var(--azul);border-color:var(--azul);color:#fff}
+.metric-desc{background:var(--azul5);border-radius:9px;padding:13px 16px;font-size:13.6px;
+ color:var(--tinta);margin:-8px 0 22px;border:1px solid var(--linea)}
+
+/* ---------- BARRAS ---------- */
+.bars{display:flex;flex-direction:column;gap:3px}
+.bar-row{display:grid;grid-template-columns:26px 118px 1fr 76px;align-items:center;gap:10px;
+ padding:6px 6px;border-radius:8px;transition:.14s;cursor:default}
+.bar-row:hover{background:var(--azul5)}
+.pos{font-size:12px;font-weight:800;color:#fff;background:var(--azul2);border-radius:50%;
+ width:24px;height:24px;display:flex;align-items:center;justify-content:center}
+.pos.d1{background:var(--azul)}.pos.d2{background:#8ba6c9}.pos.d3{background:#a9bcd6}
+.pname{font-weight:600;font-size:14px;display:flex;align-items:center;gap:7px;white-space:nowrap}
+.pname .fl{font-size:17px;line-height:1}
+.track{background:#eef3fb;border-radius:5px;height:26px;position:relative;overflow:hidden}
+.fill{height:100%;border-radius:5px;background:linear-gradient(90deg,var(--azul) 0%,var(--azul3) 100%);
+ transition:width .5s cubic-bezier(.4,0,.2,1)}
+.bval{font-size:14.5px;font-weight:800;text-align:right;color:var(--azul);letter-spacing:-.01em}
+.bval small{font-weight:600;color:var(--gris);font-size:11px}
+.delta{font-size:11px;font-weight:700;padding:1px 6px;border-radius:20px;margin-left:2px}
+.up{background:#dcfce7;color:#15803d}.down{background:#fee2e2;color:#b91c1c}.eqp{background:#f1f5f9;color:#64748b}
+
+/* ---------- SCATTER ---------- */
+.scatter-box{position:relative;margin-top:8px}
+svg.scatter{width:100%;height:auto;display:block;overflow:visible}
+.dot{cursor:pointer;transition:.15s}
+.dot:hover circle{stroke-width:3}
+.axis-lbl{font-size:11.5px;fill:var(--gris);font-weight:600}
+.tick{font-size:10.5px;fill:#94a3b8}
+.dot-lbl{font-size:10.5px;font-weight:700;fill:var(--tinta)}
+.quad-lbl{font-size:11px;font-weight:700;fill:#b6c6dd;text-transform:uppercase;letter-spacing:.06em}
+
+/* ---------- TRASLADO ---------- */
+.tras-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(158px,1fr));gap:11px}
+.tcard{border:1px solid var(--linea);border-radius:10px;padding:14px;background:#fff}
+.tcard .th{display:flex;align-items:center;gap:7px;font-weight:700;font-size:14px;margin-bottom:9px}
+.tbar{height:7px;border-radius:4px;background:#eef3fb;overflow:hidden;display:flex;margin-bottom:8px}
+.tbar i{display:block;height:100%}
+.tbar .mv{background:var(--azul)}.tbar .fx{background:var(--azul4)}
+.tmeta{font-size:11.8px;color:var(--gris);line-height:1.45}
+.legend{display:flex;gap:16px;font-size:12px;color:var(--gris);margin:14px 0 16px;flex-wrap:wrap}
+.legend i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+
+/* ---------- TABLA ---------- */
+.tbl-scroll{overflow-x:auto;margin:0 -6px}
+table{border-collapse:collapse;width:100%;font-size:13.1px;min-width:840px}
+th{background:var(--azul5);color:var(--azul);font-weight:700;text-align:right;padding:11px 10px;
+ border-bottom:2px solid var(--azul4);cursor:pointer;user-select:none;white-space:nowrap;font-size:12px}
+th:first-child,td:first-child{text-align:left}
+th:hover{background:#d3e3fb}
+th .arw{opacity:.35;font-size:9px;margin-left:3px}
+th.sorted .arw{opacity:1}
+td{padding:9px 10px;border-bottom:1px solid var(--linea);text-align:right;font-variant-numeric:tabular-nums}
+tbody tr:hover{background:var(--azul5)}
+td.p{font-weight:600;white-space:nowrap}
+.tag{font-size:10.5px;padding:2px 7px;border-radius:20px;font-weight:700;white-space:nowrap}
+.tag.cal{background:#e0f2fe;color:#0369a1}
+.tag.hab{background:#fef3c7;color:#a16207}
+.hl{font-weight:800;color:var(--azul)}
+
+/* ---------- DERECHO VS REALIDAD ---------- */
+.constructo{display:grid;grid-template-columns:1fr auto 1fr;gap:14px;align-items:center;margin-top:20px}
+.cbox{border:1px solid #f0c98a;background:#fff;border-radius:11px;padding:16px 18px;font-size:13.2px;color:var(--gris)}
+.cbox b{display:block;color:var(--tinta);margin-top:9px;font-size:12px;text-transform:uppercase;letter-spacing:.05em}
+.carrow{font-size:26px;font-weight:800;color:#b45309}
+.ctag{display:inline-block;font-size:10.5px;font-weight:800;padding:3px 10px;border-radius:20px;
+ text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.ctag.legal{background:var(--azul5);color:var(--azul)}
+.ctag.real{background:#fef3c7;color:#b45309}
+.cob-row{display:grid;grid-template-columns:26px 118px 1fr 92px;align-items:center;gap:10px;padding:7px 6px;border-radius:8px}
+.cob-row:hover{background:#fffbf4}
+.cob-track{background:#f4f6fa;border-radius:5px;height:30px;position:relative;overflow:hidden}
+.cob-legal{position:absolute;left:0;top:0;height:100%;background:#fcd9a8;border-radius:5px}
+.cob-real{position:absolute;left:0;top:0;height:100%;background:#b45309;border-radius:5px;transition:width .5s}
+.cob-nd{position:absolute;left:0;top:0;height:100%;width:100%;background:repeating-linear-gradient(45deg,#eef2f7,#eef2f7 6px,#e2e8f0 6px,#e2e8f0 12px);
+ border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#94a3b8;letter-spacing:.08em}
+.cob-val{text-align:right;font-size:14px;font-weight:800;color:#b45309;font-variant-numeric:tabular-nums}
+.cob-val small{display:block;font-weight:600;color:var(--gris);font-size:10.5px}
+.hrs{display:grid;grid-template-columns:repeat(auto-fit,minmax(152px,1fr));gap:11px;margin-top:14px}
+.hcard{border:1px solid var(--linea);border-radius:10px;padding:14px;background:#fff;text-align:center}
+.hcard .hf{font-size:20px}
+.hcard .hn{font-size:23px;font-weight:800;color:var(--azul);letter-spacing:-.02em;margin:4px 0 1px}
+.hcard .hl2{font-size:11.5px;color:var(--gris)}
+.hcard.nd{background:#fafbfd;border-style:dashed}
+.hcard.nd .hn{color:#b9c4d4;font-size:15px;font-weight:700}
+.hcard .disp{font-size:10px;background:#fef3c7;color:#b45309;font-weight:700;padding:2px 7px;border-radius:20px;display:inline-block;margin-top:5px}
+@media(max-width:700px){.constructo{grid-template-columns:1fr}.carrow{text-align:center}}
+
+/* ---------- METODOLOGIA ---------- */
+.meth{display:grid;grid-template-columns:repeat(auto-fit,minmax(255px,1fr));gap:16px}
+.meth-item{font-size:13.4px}
+.meth-item b{display:block;color:var(--azul);margin-bottom:5px;font-size:13.5px}
+.meth-item p{margin:0;color:var(--gris)}
+code{background:var(--azul5);padding:2px 6px;border-radius:4px;font-size:12.3px;
+ font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--azul)}
+.warn{border-left:4px solid #eab308;background:#fefce8;border-radius:0 9px 9px 0;padding:15px 18px;
+ font-size:13.5px;margin-top:20px}
+.warn b{color:#a16207}
+
+.gtrack{position:relative;height:44px}
+.glegal,.greal{position:absolute;left:0;height:19px;border-radius:4px;display:flex;align-items:center;
+ justify-content:flex-end;padding-right:7px;transition:width .5s cubic-bezier(.4,0,.2,1)}
+.glegal{top:0;background:#fcd9a8}
+.greal{top:23px;background:#b45309}
+.glegal span{font-size:10.5px;font-weight:700;color:#92400e;white-space:nowrap}
+.greal span{font-size:10.5px;font-weight:700;color:#fff;white-space:nowrap}
+.nd-block{margin-top:18px;border:1px dashed #cbd5e1;border-radius:11px;padding:16px 18px;background:#f8fafc}
+.nd-block>b{font-size:13px;color:#64748b;display:block;margin-bottom:11px;text-transform:uppercase;letter-spacing:.05em}
+.nd-list{display:flex;flex-wrap:wrap;gap:7px}
+.nd-chip{background:#fff;border:1px solid var(--linea);border-radius:20px;padding:5px 12px;font-size:12.5px;font-weight:600}
+.nd-chip i{font-style:normal;color:#94a3b8;font-weight:500;font-size:11.5px}
+.nd-block p{margin:12px 0 0;font-size:12.6px;color:var(--gris)}
+.constructo{display:grid;grid-template-columns:1fr auto 1fr;gap:14px;align-items:center;margin-top:22px}
+.cbox{border:1px solid #f0c98a;border-radius:11px;padding:15px 17px;background:#fffbf4;font-size:13px}
+.cbox b{display:block;color:#92400e;margin-top:8px;font-size:12px;text-transform:uppercase;letter-spacing:.04em}
+.ctag{display:inline-block;font-size:10.5px;font-weight:700;padding:3px 9px;border-radius:20px;
+ text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.ctag.legal{background:#dbeafe;color:#1e40af}
+.ctag.real{background:#fed7aa;color:#9a3412}
+.carrow{font-size:24px;color:#d69b57;font-weight:700}
+@media(max-width:640px){.constructo{grid-template-columns:1fr}.carrow{text-align:center}}
+
+.peru-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:6px}
+.pcard{border-radius:11px;padding:16px 17px;border:1px solid #f0c98a;background:#fffbf4}
+.pcard.alto{border-color:#dc2626;background:#fef2f2}
+.pcard.bajo{border-color:#0f766e;background:#f0fdfa}
+.ptag{display:block;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;
+ color:#92400e;margin-bottom:7px}
+.pcard.alto .ptag{color:#b91c1c}.pcard.bajo .ptag{color:#0f766e}
+.pcard b{display:block;font-size:30px;font-weight:800;letter-spacing:-.02em;color:#92400e;line-height:1.1}
+.pcard.alto b{color:#dc2626}.pcard.bajo b{color:#0f766e}
+.pcard p{margin:6px 0 0;font-size:12.4px;color:var(--gris);line-height:1.4}
+
+.ant-wrap{background:var(--azul5);border:1px solid var(--azul4);border-radius:11px;padding:14px 16px;margin-bottom:16px}
+.ant-lbl{display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--azul);margin-bottom:9px}
+.ctrl.ant{margin:0}
+.ctrl.ant button{background:#fff}
+.ctrl.ant button.on{background:var(--azul2);border-color:var(--azul2)}
+.ant-note{display:inline-block;margin-top:6px;font-weight:600;color:var(--azul)}
+.tbar .lt{background:#7aa7e0}
+.tdelta{display:inline-block;margin-top:5px;font-size:10.5px;font-weight:700;color:#0f766e;
+ background:#f0fdfa;border-radius:20px;padding:1px 7px}
+
+.serie-stats{display:flex;flex-wrap:wrap;gap:11px;margin-top:18px}
+.sst{flex:1 1 150px;background:var(--azul5);border:1px solid var(--azul4);border-radius:10px;padding:13px 15px}
+.sst b{display:block;font-size:23px;font-weight:800;color:var(--azul);letter-spacing:-.02em}
+.sst span{display:block;font-size:11.8px;color:var(--gris);margin-top:3px;line-height:1.35}
+
+.idx-note{margin-top:22px;border:1px solid var(--azul4);border-left:4px solid var(--azul2);
+ border-radius:0 11px 11px 0;background:var(--azul5);padding:16px 19px;font-size:13.6px}
+.idx-note>b{color:var(--azul);display:block;margin-bottom:8px;font-size:14px}
+.idx-note p{margin:0 0 9px}
+.idx-note p:last-child{margin-bottom:0}
+footer{margin-top:36px;padding-top:22px;border-top:1px solid var(--linea);font-size:12.3px;color:var(--gris)}
+footer b{color:var(--tinta)}
+footer ul{padding-left:18px;margin:8px 0 0}
+footer li{margin-bottom:4px}
+.badge{display:inline-block;background:var(--azul);color:#fff;font-size:10.5px;font-weight:700;
+ padding:3px 9px;border-radius:20px;letter-spacing:.05em;text-transform:uppercase;margin-bottom:12px}
+@media(max-width:640px){
+ .bar-row{grid-template-columns:22px 92px 1fr 62px;gap:7px}
+ .pname{font-size:12.5px}.bval{font-size:13px}
+ .hstat b{font-size:22px}
+}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="wrap">
+    <div class="kicker">Análisis metodológico · Julio 2026</div>
+    <h1>El país que “más descansa” en Latinoamérica depende de cómo lo midas</h1>
+    <p>Los rankings de descanso remunerado suman peras con manzanas: días calendario junto a días hábiles, feriados que caen en domingo junto a feriados trasladados a lunes, y jornadas de 40 horas junto a jornadas de 48. Al normalizar esas variables, el podio cambia por completo.</p>
+    <div class="hero-stats">
+      <div class="hstat"><b>11</b><span>países analizados</span></div>
+      <div class="hstat"><b>8.º &rarr; 1.º</b><span>sube Paraguay al pasar de 1 a 10 a&ntilde;os de antig&uuml;edad</span></div>
+      <div class="hstat"><b>3</b><span>unidades de medida incompatibles detectadas</span></div>
+      <div class="hstat"><b>10 de 11</b><span>países cambian de posición al medir horas reales</span></div>
+      <div class="hstat"><b>+4,6 h</b><span>brecha entre la ley y la práctica en Colombia</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+<!-- 1. EL PROBLEMA -->
+<section class="card">
+  <div class="badge">01 · El problema</div>
+  <h2>“30 días” y “15 días” no significan lo mismo</h2>
+  <p class="lead">Cada legislación define las vacaciones en una unidad distinta. Sumar esas cifras en una sola columna produce un número que no representa nada comparable entre países.</p>
+
+  <div class="units">
+    <div class="unit">
+      <b>Días calendario / corridos</b>
+      <p>Se cuentan todos los días, incluidos sábados y domingos. El trabajador “gasta” sus fines de semana dentro del período.</p>
+      <div class="eq">30 días ≈ 21 días laborables liberados</div>
+    </div>
+    <div class="unit">
+      <b>Días hábiles</b>
+      <p>Solo cuentan los días de trabajo. Los fines de semana quedan fuera del cómputo y se suman al descanso real.</p>
+      <div class="eq">15 días ≈ 21 días calendario</div>
+    </div>
+    <div class="unit">
+      <b>Feriado fijo vs. trasladado</b>
+      <p>Un feriado en fecha fija puede caer en domingo y perderse. Uno trasladado a lunes siempre libera un día de trabajo.</p>
+      <div class="eq">Fijo ≈ 71% de valor efectivo</div>
+    </div>
+  </div>
+
+  <div class="flag-note">
+    <b>Errores detectados en la infografía original</b>
+    <ul>
+      <li><b>México:</b> los 12 días del art. 76 de la LFT son <b>hábiles</b>, no calendario. La tabla original los clasifica mal.</li>
+      <li><b>Chile:</b> la jornada bajó a <b>42 h</b> el 26 de abril de 2026 (Ley 21.561), no 45 h.</li>
+      <li><b>Colombia:</b> la jornada bajó a <b>42 h</b> el 15 de julio de 2026, completando la Ley 2101 de 2021.</li>
+      <li><b>Colombia (fila 4):</b> la suma no cuadra — 15 + 19 = 34 se muestra como total, pero se rankea por debajo de Chile y Uruguay, que tienen 35.</li>
+      <li><b>Fuente:</b> se cita el Panorama Laboral OIT <b>2023</b> para datos rotulados 2026, con al menos tres reformas de jornada ocurridas después.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- 2. RANKING INTERACTIVO -->
+<section class="card">
+  <div class="badge">02 · Ranking comparado</div>
+  <h2>Cambia la métrica y observa cómo se reordena el podio</h2>
+  <p class="lead">Las cuatro m&eacute;tricas usan exactamente los mismos datos legales; la &uacute;nica diferencia es c&oacute;mo se normalizan. El selector de antig&uuml;edad cambia algo m&aacute;s profundo: la infograf&iacute;a original solo muestra el <b>primer a&ntilde;o</b>, y ese recorte favorece sistem&aacute;ticamente a los pa&iacute;ses con r&eacute;gimen plano.</p>
+
+  <div class="ant-wrap">
+    <span class="ant-lbl">Antigüedad del trabajador</span>
+    <div class="ctrl ant" id="ant"></div>
+  </div>
+  <div class="ctrl" id="ctrl"></div>
+  <div class="metric-desc" id="mdesc"></div>
+  <div class="bars" id="bars"></div>
+  <div class="idx-note">
+    <b>Sobre los dos índices porcentuales</b>
+    <p>Un cociente <code>descanso / horas totales</code> parece la métrica natural, pero si el denominador son las horas contractuales del propio país, <b>la jornada se cancela</b>: el índice se reduce a <code>días liberados ÷ días laborables al año</code> y deja de ver la diferencia entre 40 h y 48 h semanales. El síntoma es Ecuador — última posición en ese índice (8,3%) pese a ser el país con menos horas trabajadas al año de toda la muestra. No es un error del dato: es el problema clásico del denominador endógeno.</p>
+    <p>La corrección es usar un denominador <b>externo e idéntico para todos</b>. Las horas de vigilia (5.840 al año) cumplen esa condición, y con ellas el orden se invierte: Ecuador pasa a primero con 32,7% de su vida despierta trabajando, frente al 40,2% de México. Los dos índices están disponibles arriba; conviene leerlos juntos y no sustituir uno por otro.</p>
+  </div>
+  <div class="legend" style="margin-top:18px">
+    <span><i style="background:#dcfce7"></i>sube respecto al ranking bruto</span>
+    <span><i style="background:#fee2e2"></i>baja respecto al ranking bruto</span>
+    <span><i style="background:#f1f5f9"></i>sin cambio</span>
+  </div>
+</section>
+
+<!-- 3. SCATTER -->
+<section class="card">
+  <div class="badge">03 · El trade-off</div>
+  <h2>Descansar más no es lo mismo que trabajar menos</h2>
+  <p class="lead">Perú lidera en días de descanso, pero con jornada de 48 h y semana de 6 días termina trabajando más horas al año que Colombia, Chile o Ecuador. El eje vertical es lo que realmente importa para el bienestar laboral.</p>
+
+  <div class="scatter-box">
+    <svg class="scatter" id="scatter" viewBox="0 0 900 470"></svg>
+  </div>
+  <div class="legend">
+    <span><i style="background:var(--azul)"></i>Jornada ≤ 42 h/semana</span>
+    <span><i style="background:var(--azul3)"></i>Jornada 44 h/semana</span>
+    <span><i style="background:var(--azul4)"></i>Jornada 48 h/semana</span>
+  </div>
+</section>
+
+<!-- 4. LEY DE TRASLADO -->
+<section class="card">
+  <div class="badge">04 · Ley de traslado</div>
+  <h2>No todos los feriados valen lo mismo</h2>
+  <p class="lead">El valor de un feriado es una <b>esperanza matem&aacute;tica</b>, y no todos los feriados tienen la misma. Hay tres tipos, no dos:</p>
+  <div class="units" style="margin-bottom:20px">
+    <div class="unit" style="background:#eaf1fd">
+      <b>Trasladables por ley &middot; factor 1,0</b>
+      <p>La norma los mueve a lunes o viernes (Ley Emiliani en Colombia, Ley 27.399 en Argentina). Nunca caen en fin de semana: liberan un d&iacute;a de trabajo con certeza.</p>
+    </div>
+    <div class="unit" style="background:#e8f0fb">
+      <b>Lit&uacute;rgicos y carnaval &middot; factor 1,0</b>
+      <p>Jueves y Viernes Santo, Corpus Christi, lunes y martes de carnaval. Su fecha se mueve cada a&ntilde;o, pero <b>por construcci&oacute;n siempre caen en d&iacute;a h&aacute;bil</b>. Tratarlos como fecha fija los subvalor&iacute;a.</p>
+    </div>
+    <div class="unit">
+      <b>Fecha fija &middot; factor d/7</b>
+      <p>1 de enero, 1 de mayo, 25 de diciembre. Solo estos son verdaderamente probabil&iacute;sticos: pueden caer en s&aacute;bado o domingo y perderse sin compensaci&oacute;n.</p>
+    </div>
+  </div>
+  <p class="lead">Aplicar 5/7 a todo el bloque de feriados &mdash; como hac&iacute;a la primera versi&oacute;n de este an&aacute;lisis &mdash; subestima el descanso en los pa&iacute;ses con muchos feriados de Semana Santa y carnaval. Uruguay y Ecuador eran los m&aacute;s perjudicados: recuperan casi un d&iacute;a laborable cada uno.</p>
+
+  <div class="legend">
+    <span><i class="mv" style="background:var(--azul)"></i>Feriados trasladables por ley (valor garantizado)</span>
+    <span><i class="lt" style="background:#7aa7e0"></i>Litúrgicos y carnaval (siempre día hábil)</span>
+    <span><i class="fx" style="background:var(--azul4)"></i>Feriados en fecha fija (valor probabilístico)</span>
+  </div>
+  <div class="tras-grid" id="tras"></div>
+</section>
+
+<!-- 4B. LEY VS PRACTICA -->
+<section class="card" style="border-color:#f0c98a;background:linear-gradient(180deg,#fffbf4 0%,#fff 220px)">
+  <div class="badge" style="background:#b45309">05 &middot; Ley vs. pr&aacute;ctica</div>
+  <h2 style="color:#92400e">Todo lo anterior describe la ley, no la conducta</h2>
+  <p class="lead">Las secciones previas responden <b>&ldquo;&iquest;qu&eacute; garantiza la norma?&rdquo;</b>. Esta responde algo distinto: <b>&ldquo;&iquest;cu&aacute;nto se trabaja realmente?&rdquo;</b>. La serie usada son las <b>horas efectivas de asalariados</b> de ILOSTAT &mdash; el recorte que mejor se aproxima al empleo formal, porque excluye al trabajo por cuenta propia, donde se concentra la informalidad.</p>
+
+  <div class="constructo">
+    <div class="cbox">
+      <span class="ctag legal">Marco legal</span>
+      <b>Mide</b> el derecho garantizado por la norma.
+      <b>Unidad</b> jornada m&aacute;xima semanal, vigente 2026.
+      <b>Fuente</b> c&oacute;digos de trabajo y leyes de jornada.
+    </div>
+    <div class="carrow">&ne;</div>
+    <div class="cbox">
+      <span class="ctag real">Conducta observada</span>
+      <b>Mide</b> horas efectivamente trabajadas por asalariados.
+      <b>Unidad</b> horas por semana, encuestas de empleo 2023.
+      <b>Fuente</b> ILOSTAT / OIT (Gontero, oct. 2025).
+    </div>
+  </div>
+
+  <h3 style="margin-top:30px;font-size:17px">Jornada legal frente a horas efectivamente trabajadas</h3>
+  <p class="lead" style="margin-bottom:16px">Barra clara: el tope que fija la ley. Barra oscura: lo que registran las encuestas entre asalariados. Cuando la oscura sobresale, la pr&aacute;ctica va por delante de la norma.</p>
+
+  <div class="legend">
+    <span><i style="background:#fcd9a8"></i>Jornada m&aacute;xima legal (2026)</span>
+    <span><i style="background:#b45309"></i>Horas efectivas de asalariados (2023)</span>
+    <span><i style="background:#e2e8f0"></i>Sin dato comparable</span>
+  </div>
+  <div class="bars" id="gap"></div>
+
+  <div class="flag-note" style="margin-top:26px">
+    <b>Colombia: la reforma legal se adelant&oacute; a la conducta</b>
+    <p style="margin:8px 0 0">En 2023 los asalariados colombianos trabajaban <b>46,6 horas efectivas</b> por semana, el registro m&aacute;s alto de Am&eacute;rica Latina. En julio de 2026 el tope legal baj&oacute; a <b>42 horas</b>. Colombia encabeza el ranking legal de la secci&oacute;n 02 y, al mismo tiempo, arrastra la mayor distancia entre lo que concede la norma y lo que muestra la evidencia. Un ranking de derechos, por bien normalizado que est&eacute;, no detecta esto.</p>
+    <p style="margin:10px 0 0"><b>El contraste:</b> Argentina y Uruguay registran <b>37 horas</b> efectivas &mdash; las m&aacute;s bajas de la regi&oacute;n &mdash; pese a tener el tope legal m&aacute;s alto de la muestra (48 h). Ah&iacute; la conducta va muy por debajo del techo legal.</p>
+  </div>
+
+  <h3 style="margin-top:34px;font-size:17px">Caso Per&uacute;: lo que la data nacional revela y la armonizada esconde</h3>
+  <p class="lead" style="margin-bottom:16px">ILOSTAT no desagrega por formalidad. Las estad&iacute;sticas nacionales s&iacute;. Cuando se mira el dato peruano de la EPEN (INEI) separando formales de informales, se cae uno de los supuestos m&aacute;s intuitivos de todo este an&aacute;lisis.</p>
+
+  <div class="peru-grid">
+    <div class="pcard alto">
+      <span class="ptag">Microempresa formal</span>
+      <b>50,3 h</b>
+      <p>por semana &mdash; <b>por encima</b> del tope legal de 48 h</p>
+    </div>
+    <div class="pcard bajo">
+      <span class="ptag">Microempresa informal</span>
+      <b>40,6 h</b>
+      <p>por semana &mdash; 9,7 h <b>menos</b> que su par formal</p>
+    </div>
+    <div class="pcard neutro">
+      <span class="ptag">Brecha agregada 2023</span>
+      <b>+7,4 h</b>
+      <p>trabaja el sector formal por encima del informal</p>
+    </div>
+    <div class="pcard neutro">
+      <span class="ptag">Gran empresa</span>
+      <b>+2,4 h</b>
+      <p>la brecha casi desaparece al subir el tama&ntilde;o de firma</p>
+    </div>
+  </div>
+
+  <div class="flag-note" style="margin-top:22px">
+    <b>El supuesto que se cae</b>
+    <p style="margin:8px 0 0">La intuici&oacute;n dominante &mdash; y la que yo mismo apliqu&eacute; al construir este an&aacute;lisis &mdash; es que la informalidad implica peores condiciones, incluido m&aacute;s trabajo. En Per&uacute; la evidencia apunta al rev&eacute;s en la dimensi&oacute;n horaria: <b>el trabajador formal trabaja m&aacute;s horas que el informal</b>, y en la microempresa formal supera el m&aacute;ximo legal. La lectura que ofrece ComexPer&uacute; es que la formalidad encarece al trabajador, y la empresa compensa ese costo extrayendo m&aacute;s horas de cada puesto formal.</p>
+    <p style="margin:10px 0 0">Consecuencia directa para este trabajo: <b>restringir el an&aacute;lisis al sector formal no sesga el resultado a favor del descanso.</b> En Per&uacute; lo sesga en contra. Es exactamente el grupo al que le aplican los 30 d&iacute;as de vacaciones que lo ubican primero en el ranking legal.</p>
+  </div>
+
+  <div class="warn" style="margin-top:18px;border-left-color:#b45309;background:#fff7ed">
+    <b>Por qu&eacute; Per&uacute; no entra en el gr&aacute;fico de barras de arriba.</b> Estas cifras vienen de la EPEN del INEI, no de la serie armonizada de ILOSTAT: distinto instrumento, distinto per&iacute;odo de referencia y distinta definici&oacute;n operativa de &ldquo;formal&rdquo;. Ponerlas en la misma barra que Colombia o Uruguay repetir&iacute;a el error que denuncia la secci&oacute;n 01 &mdash; mezclar unidades incomparables. Adem&aacute;s, las 50,3 h corresponden espec&iacute;ficamente a <b>microempresa formal</b>, no al agregado del sector formal: tratarlas como promedio nacional ser&iacute;a un salto de segmento a agregado. Por eso Per&uacute; se presenta como caso documentado y no como fila del ranking.
+  </div>
+
+  <div class="warn" style="margin-top:18px;border-left-color:#b45309;background:#fff7ed">
+    <b>Por qu&eacute; estas horas no se anualizan ni se restan del an&aacute;lisis legal.</b> La definici&oacute;n OIT de &ldquo;horas efectivamente trabajadas&rdquo; <b>ya excluye</b> el tiempo no trabajado por vacaciones, feriados y licencias. Multiplicarlas por 52 y despu&eacute;s restarles los d&iacute;as de descanso legal ser&iacute;a descontar dos veces lo mismo. Por eso esta capa se mantiene en su unidad original &mdash; horas por semana &mdash; y se compara &uacute;nicamente contra la jornada legal semanal, nunca contra el total anual de la secci&oacute;n 03.
+  </div>
+
+  <div class="warn" style="margin-top:14px">
+    <b>Vac&iacute;os de datos, declarados.</b> La nota t&eacute;cnica de la OIT reporta el valor de asalariados solo para los pa&iacute;ses en los extremos de la distribuci&oacute;n. Siete de los once quedan <b>sin dato comparable</b> y as&iacute; se muestran: no se imputaron valores. Rellenar esos huecos con el promedio regional de 42 h aparentar&iacute;a completitud a costa de inventar observaciones. Advertencia adicional: un promedio bajo de horas efectivas <b>no</b> equivale a mejor calidad de vida &mdash; puede reflejar parcialidad involuntaria o subempleo, por lo que esta capa se presenta como contexto y no como ranking.
+  </div>
+</section>
+
+<!-- 5B. TRAYECTORIA -->
+<section class="card">
+  <div class="badge">06 &middot; Trayectoria 2023&ndash;2030</div>
+  <h2>Qu&eacute; se movi&oacute; de verdad y qu&eacute; parece moverse</h2>
+  <p class="lead">De las cuatro variables del an&aacute;lisis, <b>solo una tiene serie temporal con significado</b>: la jornada legal. Las vacaciones son casi est&aacute;ticas y el conteo de feriados cambia cada a&ntilde;o por accidente de calendario, no por pol&iacute;tica. Graficar las tres juntas fabricar&iacute;a una tendencia donde solo hay ruido.</p>
+
+  <svg class="scatter" id="serie" viewBox="0 0 900 460"></svg>
+
+  <div class="serie-stats" id="sstats"></div>
+
+  <div class="flag-note" style="margin-top:22px">
+    <b>La regi&oacute;n no est&aacute; convergiendo: tres pa&iacute;ses se mueven y ocho no</b>
+    <ul>
+      <li><b>M&eacute;xico &minus;8 h</b> (48 &rarr; 40) es la reducci&oacute;n mayor, pero toda ocurre <b>despu&eacute;s</b> de 2026: en el a&ntilde;o de esta infograf&iacute;a todav&iacute;a no ha empezado.</li>
+      <li><b>Colombia &minus;5 h</b> (47 &rarr; 42) ya termin&oacute; su transici&oacute;n en julio de 2026. <b>Chile &minus;5 h</b> (45 &rarr; 40) la termina en abril de 2028.</li>
+      <li>Los otros <b>ocho pa&iacute;ses no registran un solo cambio</b> en ocho a&ntilde;os. El promedio regional baja apenas de 46,2 a 44,5 h, y esa ca&iacute;da la explican &iacute;ntegramente tres legislaciones.</li>
+      <li>Ecuador lleva 40 h desde antes del per&iacute;odo y sigue siendo el &uacute;nico que ya cumple la recomendaci&oacute;n de la OIT durante toda la serie.</li>
+    </ul>
+  </div>
+
+  <div class="warn" style="margin-top:18px">
+    <b>Lo que deliberadamente no se grafica, y por qu&eacute;.</b>
+    <p style="margin:9px 0 0"><b>Vacaciones legales:</b> el &uacute;nico cambio relevante del per&iacute;odo es la reforma mexicana de &ldquo;Vacaciones Dignas&rdquo;, vigente desde el 1 de enero de 2023, que dobl&oacute; el primer a&ntilde;o de 6 a 12 d&iacute;as h&aacute;biles. Cae justo en el borde de la ventana: una l&iacute;nea 2023&ndash;2026 la mostrar&iacute;a como plana y ocultar&iacute;a el salto. El resto de pa&iacute;ses no modific&oacute; su escala.</p>
+    <p style="margin:9px 0 0"><b>N&uacute;mero de feriados:</b> var&iacute;a a&ntilde;o a a&ntilde;o porque cambia el d&iacute;a de la semana en que caen y porque algunos pa&iacute;ses decretan puentes tur&iacute;sticos anuales. Eso es <b>accidente de calendario, no pol&iacute;tica</b>. Una serie temporal invitar&iacute;a a leer como tendencia lo que es aritm&eacute;tica del a&ntilde;o.</p>
+    <p style="margin:9px 0 0"><b>Horas efectivamente trabajadas:</b> la serie armonizada de ILOSTAT llega a <b>2023</b>. No existe dato comparable 2024&ndash;2026, as&iacute; que cualquier l&iacute;nea posterior ser&iacute;a extrapolaci&oacute;n. Se omite en lugar de proyectarse.</p>
+  </div>
+</section>
+
+<!-- 5. TABLA -->
+<section class="card">
+  <div class="badge">07 · Datos completos</div>
+  <h2>Tabla comparativa — haz clic en cualquier encabezado para ordenar</h2>
+  <p class="lead">Todas las columnas derivadas se calculan con la fórmula documentada en la metodología. Ninguna cifra se toma directamente de la infografía original sin verificación.</p>
+  <div class="tbl-scroll">
+    <table id="tabla">
+      <thead><tr id="thead"></tr></thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+</section>
+
+<!-- 6. METODOLOGIA -->
+<section class="card">
+  <div class="badge">08 · Metodología</div>
+  <h2>Cómo se normalizó cada variable</h2>
+  <div class="meth">
+    <div class="meth-item">
+      <b>Vacaciones → días laborables</b>
+      <p>Si la ley las define en días hábiles, se toman tal cual. Si las define en días calendario o corridos, se multiplican por <code>d/7</code>, donde <code>d</code> son los días laborables por semana del país (5, 5.5 o 6).</p>
+    </div>
+    <div class="meth-item">
+      <b>Feriados → días laborables</b>
+      <p><code>(trasladables + lit&uacute;rgicos) &times; 1 + fijos &times; (d/7)</code>. Los dos primeros grupos se cuentan enteros porque siempre caen en d&iacute;a h&aacute;bil &mdash; unos por mandato legal, otros por construcci&oacute;n del calendario lit&uacute;rgico. Solo los de fecha fija se ponderan por su probabilidad de no caer en fin de semana.</p>
+    </div>
+    <div class="meth-item">
+      <b>Horas anuales trabajadas</b>
+      <p><code>(jornada × 52) − (días liberados × jornada/d)</code>. Es la métrica más comparable: colapsa vacaciones, feriados y jornada en una sola cifra.</p>
+    </div>
+    <div class="meth-item">
+      <b>Jornada semanal</b>
+      <p>Se usa el máximo legal <b>vigente a julio de 2026</b>, no el de la ley marco. Chile (42 h desde abril 2026), Colombia (42 h desde julio 2026) y México (48 h, reducción inicia 2027) se corrigieron respecto a la fuente original.</p>
+    </div>
+    <div class="meth-item">
+      <b>&Iacute;ndices porcentuales</b>
+      <p><code>% a&ntilde;o laboral = d&iacute;as liberados &divide; (d &times; 52)</code> &mdash; equivale exactamente a <code>horas de descanso &divide; horas contractuales</code>, porque la jornada aparece en ambos t&eacute;rminos y se cancela. <code>% vigilia = horas trabajadas &divide; 5.840</code>, con 5.840 = 8.760 h del a&ntilde;o menos 8 h diarias de sue&ntilde;o. El supuesto de sue&ntilde;o es convencional y afecta el nivel absoluto de todos los pa&iacute;ses por igual, no su orden.</p>
+    </div>
+    <div class="meth-item">
+      <b>Antig&uuml;edad</b>
+      <p>Los valores corresponden al tramo legal en que cae el trabajador, no a un c&aacute;lculo d&iacute;a a d&iacute;a: los a&ntilde;os frontera (5.&ordm;, 10.&ordm;, 20.&ordm;) var&iacute;an en uno o dos d&iacute;as seg&uacute;n la redacci&oacute;n de cada norma. Reg&iacute;menes planos: Per&uacute;, Panam&aacute;, Brasil y Colombia. Reg&iacute;menes escalonados: Argentina, Paraguay, M&eacute;xico, Honduras, Ecuador, Uruguay y Chile.</p>
+    </div>
+    <div class="meth-item">
+      <b>Brecha ley&ndash;pr&aacute;ctica</b>
+      <p><code>horas efectivas de asalariados − jornada máxima legal</code>. Se comparan magnitudes de la misma unidad (horas por semana) y nunca se anualizan, porque la definición OIT de horas efectivas ya excluye vacaciones, feriados y licencias: anualizarlas y restarles el descanso legal descontaría dos veces lo mismo.</p>
+    </div>
+    <div class="meth-item">
+      <b>Por qué asalariados y no ocupados</b>
+      <p>La serie se restringe a <b>asalariados</b>, no a personas ocupadas. Ese recorte excluye al trabajo por cuenta propia —donde se concentra la informalidad— y reduce la influencia de jornadas extremas. Es la mejor aproximación disponible al empleo formal en datos armonizados, aunque no lo aísla por completo: existen asalariados informales.</p>
+    </div>
+  </div>
+
+  <div class="warn">
+    <b>Limitaciones que el lector debe conocer.</b> Los días laborables por semana son un promedio estructural, no una regla universal: en Perú y México coexisten esquemas de 5 y 6 días. El conteo de feriados en fin de semana sigue siendo una <b>esperanza matem&aacute;tica</b>, no el calendario 2026 le&iacute;do d&iacute;a a d&iacute;a: los de fecha fija se ponderan por <code>d/7</code>, con un margen aproximado de &plusmn;1 d&iacute;a laborable. La clasificaci&oacute;n de cada feriado en los tres tipos se hizo a partir de los calendarios nacionales y admite discusi&oacute;n en casos de frontera (feriados regionales, d&iacute;as no laborables no remunerados, S&aacute;bado de Gloria). Sustituir la esperanza por el calendario real de 2026 es el siguiente paso natural y eliminar&iacute;a este margen por completo. <b>Uruguay tiene jornada dual</b> — 48 h en actividad industrial y 44 h en comercio y servicios — y aquí se usa el techo de 48 h, lo que subestima su descanso relativo en el sector servicios. Por último, las horas efectivas de la sección 05 corresponden a <b>2023</b> y la jornada legal a <b>julio de 2026</b>: la brecha mide la distancia entre una norma nueva y una conducta medida antes de su entrada en vigor, no un incumplimiento comprobado.
+  </div>
+</section>
+
+<footer>
+  <b>Fuentes.</b> Legislación laboral vigente por país (códigos de trabajo y leyes de jornada), calendarios oficiales de feriados 2026, y reportes de reforma laboral 2026 para Chile (Ley 21.561), Colombia (Ley 2101 de 2021) y México (reforma constitucional de jornada, gradualidad 2027-2030). Ley Emiliani (Ley 51 de 1983) para Colombia y Ley 27.399 para Argentina en el tratamiento de feriados trasladables.
+  <ul>
+    <li>Verificación cruzada de jornada laboral: Bloomberg Línea, Infobae, Thomson Reuters Chile, El Imparcial (julio 2026).</li>
+    <li>Vacaciones legales mínimas: códigos de trabajo nacionales e Infobae — comparativo de regímenes de días corridos vs. hábiles.</li>
+    <li>Feriados 2026: portales oficiales (argentina.gob.ar, gob.pe) y calendarios nacionales publicados.</li>
+    <li>Horas efectivas y tiempo de trabajo: OIT, nota técnica <i>“¿Cuántas horas se trabajan en América Latina y el Caribe? Indicadores del tiempo de trabajo y su organización”</i> (Sonia Gontero, 30 de octubre de 2025), elaborada con datos armonizados de ILOSTAT.</li>
+    <li>Valores país de horas efectivas de asalariados (Colombia 46,6 h; Honduras ≈45 h; Argentina y Uruguay 37 h) y referencias regionales (América Latina 42 h; OCDE altos ingresos 34,6 h): OIT/Gontero (2025), sección 2.1, con datos ILOSTAT recopilados en octubre de 2025.</li>
+    <li>Caso Perú (horas por formalidad): INEI, Encuesta Permanente de Empleo Nacional (EPEN), procesada y difundida por ComexPerú, <i>Semanario</i> — “Trabajadores formales trabajan más que informales por costos laborales” (datos 2023). Serie no comparable con ILOSTAT.</li>
+  </ul>
+  <p style="margin-top:14px">Análisis y normalización elaborados en julio de 2026. Las cifras derivadas son estimaciones metodológicas, no valores oficiales — se publican junto con su fórmula para permitir réplica y crítica.</p>
+</footer>
+
+</div>
+
+<script>
+// vac = vacaciones legales por antiguedad [1,5,10,20 años] en la unidad del pais
+// tras = feriados trasladables por ley · lit = liturgicos/carnaval (dia habil garantizado) · resto = fecha fija
+const TEN=["1 año","5 años","10 años","20 años"];
+let ti=0;
+const D=[
+ {p:"Perú",     f:"🇵🇪",uni:"calendario",vac:[30,30,30,30],fer:16,tras:0, lit:2,jor:48,dsl:6},
+ {p:"Panamá",   f:"🇵🇦",uni:"calendario",vac:[30,30,30,30],fer:12,tras:3, lit:2,jor:48,dsl:5.5},
+ {p:"Brasil",   f:"🇧🇷",uni:"calendario",vac:[30,30,30,30],fer:10,tras:0, lit:2,jor:44,dsl:5},
+ {p:"Colombia", f:"🇨🇴",uni:"hábiles",   vac:[15,15,15,15],fer:18,tras:12,lit:2,jor:42,dsl:5},
+ {p:"Chile",    f:"🇨🇱",uni:"hábiles",   vac:[15,15,15,18],fer:17,tras:3, lit:1,jor:42,dsl:5},
+ {p:"Argentina",f:"🇦🇷",uni:"corridos",  vac:[14,21,28,35],fer:16,tras:4, lit:2,jor:48,dsl:5},
+ {p:"Uruguay",  f:"🇺🇾",uni:"hábiles",   vac:[20,21,22,25],fer:15,tras:4, lit:4,jor:48,dsl:5.5},
+ {p:"Ecuador",  f:"🇪🇨",uni:"calendario",vac:[15,15,20,30],fer:12,tras:5, lit:3,jor:40,dsl:5},
+ {p:"Paraguay", f:"🇵🇾",uni:"hábiles",   vac:[12,18,30,30],fer:12,tras:4, lit:2,jor:48,dsl:5},
+ {p:"Honduras", f:"🇭🇳",uni:"hábiles",   vac:[10,20,20,20],fer:11,tras:0, lit:2,jor:44,dsl:5.5},
+ {p:"México",   f:"🇲🇽",uni:"hábiles",   vac:[12,20,22,26],fer:7, tras:3, lit:0,jor:48,dsl:6}
+];
+const r1=v=>Math.round(v*10)/10;
+D.forEach(d=>{
+  d.fijos = d.fer-d.tras-d.lit;
+  d.ferLab = r1(d.tras + d.lit + d.fijos*(d.dsl/7));      // esperanza refinada
+  d.ferLabPlano = r1(d.fer*(d.dsl/7));                     // todo tratado como fijo
+  d.hDia = d.jor/d.dsl;
+});
+function V(d,i){ return d.vac[i]; }
+function vacCal(d,i){ return d.uni==="hábiles" ? r1(V(d,i)*7/5) : V(d,i); }
+function vacLab(d,i){ return d.uni==="hábiles" ? V(d,i) : r1(V(d,i)*d.dsl/7); }
+function totLab(d,i){ return r1(vacLab(d,i)+d.ferLab); }
+function hTrab(d,i){ return r1(d.jor*52 - totLab(d,i)*d.hDia); }
+function bruto(d,i){ return V(d,i)+d.fer; }
+const VIGILIA=5840;                                   // 8760 h - 8 h de sueño/día
+function pctDesc(d,i){ return r1(totLab(d,i)/(d.dsl*52)*100); }   // la jornada se cancela
+function pctVig(d,i){ return r1(hTrab(d,i)/VIGILIA*100); }
+
+const METRICS={
+ bruto:{lbl:"Suma bruta (original)",u:"días",inv:false,fn:bruto,
+  desc:"<b>Así lo presenta la infografía original.</b> Suma vacaciones + feriados sin convertir unidades ni distinguir tipos de feriado. Es la métrica menos defendible; sirve como línea base."},
+ totLab:{lbl:"Días laborables liberados",u:"días",inv:false,fn:totLab,
+  desc:"<b>Todo en la misma unidad:</b> días de trabajo que efectivamente no trabajas y te pagan. Las vacaciones en días calendario se descuentan por los fines de semana que consumen; los feriados se ponderan según su tipo (ver sección 04)."},
+ vacCal:{lbl:"Vacaciones en días calendario",u:"días",inv:false,fn:vacCal,
+  desc:"<b>Solo vacaciones, todas en días calendario.</b> Revela que los “15 días hábiles” de Colombia y Chile equivalen a 21 días de calendario, y los “20 días” de Uruguay a 28."},
+ hTrab:{lbl:"Horas trabajadas al año ↓",u:"h",inv:true,fn:hTrab,
+  desc:"<b>La métrica más completa en valor absoluto.</b> Integra jornada semanal, vacaciones y feriados en una sola cifra: cuántas horas trabajas realmente en el año. Menos es mejor."},
+ pctDesc:{lbl:"% del año laboral en descanso",u:"%",inv:false,fn:pctDesc,
+  desc:"<b>De cada 100 días que deberías trabajar, cuántos te pagan sin trabajar.</b> Cuidado: al ser un cociente entre magnitudes que comparten la jornada, <b>la jornada se cancela algebraicamente</b> — este índice NO distingue entre trabajar 40 h o 48 h semanales. Mide intensidad del descanso <i>dentro del propio año laboral</i>, no carga total. Por eso Ecuador aparece bajo pese a tener la semana más corta de la muestra."},
+ pctVig:{lbl:"% de vida despierta trabajando ↓",u:"%",inv:true,fn:pctVig,
+  desc:"<b>La versión del índice que sí integra la jornada.</b> Horas trabajadas al año sobre horas de vigilia (8.760 − 8 h de sueño diarias = 5.840 h). Usa un denominador externo y común a todos los países, así que la jornada no se cancela. Menos es mejor: es la proporción de tu vida consciente dedicada al trabajo remunerado."}
+};
+let cur="bruto";
+
+// ---- selector de antiguedad ----
+const ant=document.getElementById("ant");
+TEN.forEach((t,i)=>{
+  const b=document.createElement("button"); b.textContent=t; b.dataset.i=i;
+  if(i===0)b.className="on";
+  b.onclick=()=>{ti=i;[...ant.children].forEach(c=>c.className=(+c.dataset.i===i)?"on":"");todo()};
+  ant.appendChild(b);
+});
+// ---- selector de metrica ----
+const ctrl=document.getElementById("ctrl");
+Object.entries(METRICS).forEach(([k,m])=>{
+  const b=document.createElement("button"); b.textContent=m.lbl; b.dataset.k=k;
+  if(k===cur)b.className="on";
+  b.onclick=()=>{cur=k;[...ctrl.children].forEach(c=>c.className=c.dataset.k===k?"on":"");render()};
+  ctrl.appendChild(b);
+});
+
+function render(){
+  const m=METRICS[cur];
+  document.getElementById("mdesc").innerHTML=m.desc+
+    ` <span class="ant-note">Antigüedad seleccionada: <b>${TEN[ti]}</b>.</span>`;
+  const base={}; [...D].sort((a,b)=>bruto(b,0)-bruto(a,0)).forEach((d,i)=>base[d.p]=i+1);
+  const rows=[...D].sort((a,b)=>m.inv?m.fn(a,ti)-m.fn(b,ti):m.fn(b,ti)-m.fn(a,ti));
+  const vals=rows.map(d=>m.fn(d,ti)), max=Math.max(...vals), min=Math.min(...vals);
+  const box=document.getElementById("bars"); box.innerHTML="";
+  rows.forEach((d,i)=>{
+    const v=m.fn(d,ti);
+    const w=m.inv?(100-((v-min)/(max-min||1))*62):(v/max)*100;
+    const pos=i+1, diff=base[d.p]-pos;
+    const cls=diff>0?"up":diff<0?"down":"eqp";
+    const txt=diff>0?"▲"+diff:diff<0?"▼"+Math.abs(diff):"=";
+    const dh=(cur==="bruto"&&ti===0)?"":`<span class="delta ${cls}">${txt}</span>`;
+    const dcls=pos===1?"d1":pos<=3?"d2":pos<=6?"d3":"";
+    box.insertAdjacentHTML("beforeend",`
+      <div class="bar-row" title="${d.p}: ${v} ${m.u} · ${TEN[ti]}">
+        <div class="pos ${dcls}">${pos}</div>
+        <div class="pname"><span class="fl">${d.f}</span>${d.p}${dh}</div>
+        <div class="track"><div class="fill" style="width:${w}%"></div></div>
+        <div class="bval num">${m.u==="h"?v.toLocaleString("es"):v} <small>${m.u}</small></div>
+      </div>`);
+  });
+}
+
+function scatter(){
+  const W=900,H=470,ml=68,mr=24,mt=24,mb=54;
+  const xs=D.map(d=>totLab(d,ti)), ys=D.map(d=>hTrab(d,ti));
+  const x0=Math.floor(Math.min(...xs)-2), x1=Math.ceil(Math.max(...xs)+2);
+  const y0=Math.floor(Math.min(...ys)/100)*100-50, y1=Math.ceil(Math.max(...ys)/100)*100+50;
+  const X=v=>ml+((v-x0)/(x1-x0))*(W-ml-mr), Y=v=>mt+(1-(v-y0)/(y1-y0))*(H-mt-mb);
+  const col=j=>j<=42?"#0b3d91":j<=44?"#4f8ae8":"#a8c8f5";
+  let s="";
+  for(let v=y0;v<=y1;v+=100)s+=`<line x1="${ml}" y1="${Y(v)}" x2="${W-mr}" y2="${Y(v)}" stroke="#e8eff9"/><text class="tick" x="${ml-9}" y="${Y(v)+3.5}" text-anchor="end">${v.toLocaleString("es")}</text>`;
+  for(let v=Math.ceil(x0/5)*5;v<=x1;v+=5)s+=`<line x1="${X(v)}" y1="${mt}" x2="${X(v)}" y2="${H-mb}" stroke="#e8eff9"/><text class="tick" x="${X(v)}" y="${H-mb+18}" text-anchor="middle">${v}</text>`;
+  const mx=xs.reduce((a,b)=>a+b)/xs.length,my=ys.reduce((a,b)=>a+b)/ys.length;
+  s+=`<line x1="${X(mx)}" y1="${mt}" x2="${X(mx)}" y2="${H-mb}" stroke="#c3d3e8" stroke-width="1.5" stroke-dasharray="5 4"/>
+      <line x1="${ml}" y1="${Y(my)}" x2="${W-mr}" y2="${Y(my)}" stroke="#c3d3e8" stroke-width="1.5" stroke-dasharray="5 4"/>
+      <text class="quad-lbl" x="${W-mr-6}" y="${mt+16}" text-anchor="end">Descansa mucho · trabaja mucho</text>
+      <text class="quad-lbl" x="${W-mr-6}" y="${H-mb-8}" text-anchor="end">Mejor combinación</text>
+      <text class="quad-lbl" x="${ml+6}" y="${mt+16}">Peor combinación</text>
+      <text class="axis-lbl" x="${ml+(W-ml-mr)/2}" y="${H-10}" text-anchor="middle">Días laborables de descanso remunerado al año → (${TEN[ti]})</text>
+      <text class="axis-lbl" transform="translate(16,${mt+(H-mt-mb)/2}) rotate(-90)" text-anchor="middle">← Horas efectivamente trabajadas al año</text>`;
+  D.forEach(d=>{
+    const cx=X(totLab(d,ti)),cy=Y(hTrab(d,ti));
+    s+=`<g class="dot"><title>${d.p} · ${TEN[ti]}
+Descanso: ${totLab(d,ti)} días laborables
+Horas/año: ${hTrab(d,ti).toLocaleString("es")} h
+Jornada: ${d.jor} h/semana</title>
+      <circle cx="${cx}" cy="${cy}" r="9" fill="${col(d.jor)}" stroke="#fff" stroke-width="2"/>
+      <text class="dot-lbl" x="${cx}" y="${cy-15}" text-anchor="middle">${d.p}</text></g>`;
+  });
+  document.getElementById("scatter").innerHTML=s;
+}
+
+function traslado(){
+  const box=document.getElementById("tras"); box.innerHTML="";
+  [...D].sort((a,b)=>(b.ferLab/b.fer)-(a.ferLab/a.fer)).forEach(d=>{
+    const pt=d.tras/d.fer*100, pl=d.lit/d.fer*100, pf=d.fijos/d.fer*100;
+    box.insertAdjacentHTML("beforeend",`
+      <div class="tcard">
+        <div class="th"><span style="font-size:18px">${d.f}</span>${d.p}</div>
+        <div class="tbar"><i class="mv" style="width:${pt}%"></i><i class="lt" style="width:${pl}%"></i><i class="fx" style="width:${pf}%"></i></div>
+        <div class="tmeta"><b>${d.tras}</b> trasladables · <b>${d.lit}</b> litúrgicos · <b>${d.fijos}</b> fijos<br>
+        Valor esperado: <b>${d.ferLab}</b> de ${d.fer} días
+        <span class="tdelta">${d.ferLab>d.ferLabPlano?"+"+r1(d.ferLab-d.ferLabPlano):"0"} vs. modelo plano</span></div>
+      </div>`);
+  });
+}
+
+const COLS=[
+ {k:"p",t:"País",f:d=>`<span class="fl">${d.f}</span> ${d.p}`,cls:"p",v:d=>d.p},
+ {k:"vac",t:"Vac. legales",f:d=>`${V(d,ti)} <span class="tag ${d.uni==="hábiles"?"hab":"cal"}">${d.uni}</span>`,v:d=>V(d,ti)},
+ {k:"vacCal",t:"Vac. en calendario",f:d=>vacCal(d,ti),v:d=>vacCal(d,ti)},
+ {k:"vacLab",t:"Vac. en laborables",f:d=>vacLab(d,ti),v:d=>vacLab(d,ti)},
+ {k:"fer",t:"Feriados 2026",f:d=>d.fer,v:d=>d.fer},
+ {k:"tras",t:"Trasladables",f:d=>d.tras,v:d=>d.tras},
+ {k:"lit",t:"Litúrgicos",f:d=>d.lit,v:d=>d.lit},
+ {k:"fijos",t:"Fecha fija",f:d=>d.fijos,v:d=>d.fijos},
+ {k:"ferLab",t:"Feriados efectivos",f:d=>d.ferLab,v:d=>d.ferLab},
+ {k:"jor",t:"Jornada h/sem",f:d=>d.jor,v:d=>d.jor},
+ {k:"totLab",t:"Descanso real (días)",f:d=>`<span class="hl">${totLab(d,ti)}</span>`,v:d=>totLab(d,ti)},
+ {k:"hTrab",t:"Horas/año trabajadas",f:d=>`<span class="hl">${hTrab(d,ti).toLocaleString("es")}</span>`,v:d=>hTrab(d,ti)}
+];
+let sk="totLab",sd=-1;
+function tabla(){
+  document.getElementById("thead").innerHTML=COLS.map(c=>
+    `<th data-k="${c.k}" class="${c.k===sk?"sorted":""}">${c.t}<span class="arw">${c.k===sk?(sd<0?"▼":"▲"):"▼"}</span></th>`).join("");
+  const C=COLS.find(c=>c.k===sk);
+  const rows=[...D].sort((a,b)=>{const x=C.v(a),y=C.v(b);
+    return typeof x==="string"?x.localeCompare(y)*-sd:(x-y)*sd;});
+  document.getElementById("tbody").innerHTML=rows.map(d=>
+    `<tr>${COLS.map(c=>`<td class="${c.cls||""}">${c.f(d)}</td>`).join("")}</tr>`).join("");
+  document.querySelectorAll("#thead th").forEach(th=>th.onclick=()=>{
+    const k=th.dataset.k; sd=(k===sk)?-sd:-1; sk=k; tabla();});
+}
+
+// ===== LEY VS PRACTICA (no depende de antiguedad) =====
+const EF={"Colombia":46.6,"Honduras":45.0,"Argentina":37.0,"Uruguay":37.0,
+ "Perú":null,"Panamá":null,"Brasil":null,"Chile":null,"Ecuador":null,"Paraguay":null,"México":null};
+const REF_LATAM=42.0,REF_OCDE=34.6;
+D.forEach(d=>{d.hEf=EF[d.p];d.gap=d.hEf==null?null:r1(d.hEf-d.jor);});
+function brecha(){
+  const box=document.getElementById("gap");
+  const esc=Math.max(...D.map(d=>Math.max(d.jor,d.hEf||0)))*1.06;
+  const con=D.filter(d=>d.hEf!=null).sort((a,b)=>b.gap-a.gap);
+  const sin=D.filter(d=>d.hEf==null).sort((a,b)=>a.p.localeCompare(b.p));
+  let html="";
+  con.forEach(d=>{
+    html+=`<div class="bar-row" style="grid-template-columns:118px 1fr 108px" title="${d.p} — legal ${d.jor} h · efectivas ${String(d.hEf).replace(".",",")} h">
+      <div class="pname"><span class="fl">${d.f}</span>${d.p}</div>
+      <div class="gtrack">
+        <div class="glegal" style="width:${d.jor/esc*100}%"><span>${d.jor} h ley</span></div>
+        <div class="greal" style="width:${d.hEf/esc*100}%"><span>${String(d.hEf).replace(".",",")} h</span></div>
+      </div>
+      <div class="bval num" style="color:${d.gap>0?"#b45309":"#0f766e"}">${d.gap>0?"+":""}${String(d.gap).replace(".",",")} h<small>vs. ley</small></div>
+    </div>`;
+  });
+  html+=`<div class="nd-block"><b>Sin dato comparable de horas efectivas de asalariados</b>
+    <div class="nd-list">${sin.map(d=>`<span class="nd-chip">${d.f} ${d.p} <i>legal ${d.jor} h</i></span>`).join("")}</div>
+    <p>La fuente OIT reporta el indicador de asalariados solo para los países en los extremos de la distribución. Referencias regionales: <b>América Latina 42 h</b> · <b>OCDE altos ingresos 34,6 h</b>.</p></div>`;
+  box.innerHTML=html;
+}
+
+
+// ===== TRAYECTORIA JORNADA LEGAL 2023-2030 =====
+const ANIOS=[2023,2024,2025,2026,2027,2028,2029,2030];
+const SERIE={
+ "Perú":[48,48,48,48,48,48,48,48], "Panamá":[48,48,48,48,48,48,48,48],
+ "Argentina":[48,48,48,48,48,48,48,48], "Uruguay":[48,48,48,48,48,48,48,48],
+ "Paraguay":[48,48,48,48,48,48,48,48], "Brasil":[44,44,44,44,44,44,44,44],
+ "Honduras":[44,44,44,44,44,44,44,44], "Ecuador":[40,40,40,40,40,40,40,40],
+ "Colombia":[47,46,44,42,42,42,42,42], "Chile":[45,44,44,42,42,40,40,40],
+ "México":[48,48,48,48,46,44,42,40]
+};
+const MUEVEN={"Colombia":"#0b3d91","Chile":"#b45309","México":"#0f766e"};
+function serie(){
+  const W=900,H=460,ml=54,mr=132,mt=26,mb=52;
+  const X=i=>ml+(i/(ANIOS.length-1))*(W-ml-mr);
+  const Y=v=>mt+(1-(v-38)/(50-38))*(H-mt-mb);
+  let s="";
+  for(let v=38;v<=50;v+=2)
+    s+=`<line x1="${ml}" y1="${Y(v)}" x2="${W-mr}" y2="${Y(v)}" stroke="#e8eff9"/>`+
+       `<text class="tick" x="${ml-8}" y="${Y(v)+3.5}" text-anchor="end">${v} h</text>`;
+  ANIOS.forEach((a,i)=>{
+    s+=`<line x1="${X(i)}" y1="${mt}" x2="${X(i)}" y2="${H-mb}" stroke="${a===2026?"#b45309":"#f0f5fc"}" stroke-dasharray="${a===2026?"4 4":"0"}"/>`+
+       `<text class="tick" x="${X(i)}" y="${H-mb+18}" text-anchor="middle" ${a===2026?'style="fill:#b45309;font-weight:700"':''}>${a}</text>`;
+  });
+  s+=`<text class="quad-lbl" x="${X(3)+6}" y="${mt+14}" style="fill:#b45309">año de la infografía</text>`;
+  // recomendacion OIT
+  s+=`<line x1="${ml}" y1="${Y(40)}" x2="${W-mr}" y2="${Y(40)}" stroke="#0f766e" stroke-width="1.5" stroke-dasharray="6 4"/>
+      <text class="quad-lbl" x="${ml+6}" y="${Y(40)-7}" style="fill:#0f766e">recomendación OIT · 40 h</text>`;
+  const paso=v=>v.map((x,i)=>`${i?"L":"M"}${X(i)},${Y(x)}`).join(" ");
+  // estaticos
+  Object.keys(SERIE).filter(k=>!MUEVEN[k]).forEach(k=>{
+    s+=`<path d="${paso(SERIE[k])}" fill="none" stroke="#c3d3e8" stroke-width="2"/>`;
+  });
+  // agrupar etiquetas de estaticos por valor final
+  const grp={};
+  Object.keys(SERIE).filter(k=>!MUEVEN[k]).forEach(k=>{(grp[SERIE[k][7]]=grp[SERIE[k][7]]||[]).push(k)});
+  Object.entries(grp).forEach(([v,ks])=>{
+    s+=`<text class="dot-lbl" x="${W-mr+9}" y="${Y(+v)+3}" style="fill:#8ba6c9">${ks.join(", ")}</text>`;
+  });
+  // que se mueven
+  Object.entries(MUEVEN).forEach(([k,c])=>{
+    s+=`<path d="${paso(SERIE[k])}" fill="none" stroke="${c}" stroke-width="3.2" stroke-linejoin="round"/>`;
+    SERIE[k].forEach((v,i)=>{ if(i===0||v!==SERIE[k][i-1])
+      s+=`<circle cx="${X(i)}" cy="${Y(v)}" r="4.5" fill="${c}" stroke="#fff" stroke-width="2"><title>${k} ${ANIOS[i]}: ${v} h</title></circle>`;});
+    s+=`<text class="dot-lbl" x="${W-mr+9}" y="${Y(SERIE[k][7])+3}" style="fill:${c};font-size:12px">${k} ${SERIE[k][7]} h</text>`;
+  });
+  // promedio
+  const prom=ANIOS.map((_,i)=>Object.keys(SERIE).reduce((a,k)=>a+SERIE[k][i],0)/11);
+  s+=`<path d="${prom.map((x,i)=>`${i?"L":"M"}${X(i)},${Y(x)}`).join(" ")}" fill="none" stroke="#0d1b33" stroke-width="2" stroke-dasharray="7 4"/>
+      <text class="dot-lbl" x="${W-mr+9}" y="${Y(prom[7])+3}" style="fill:#0d1b33">promedio ${prom[7].toFixed(1).replace(".",",")} h</text>`;
+  s+=`<text class="axis-lbl" transform="translate(14,${mt+(H-mt-mb)/2}) rotate(-90)" text-anchor="middle">Jornada máxima legal (h/semana)</text>`;
+  document.getElementById("serie").innerHTML=s;
+
+  const est=Object.keys(SERIE).filter(k=>!MUEVEN[k]).length;
+  document.getElementById("sstats").innerHTML=`
+   <div class="sst"><b>${est} de 11</b><span>países sin un solo cambio en ocho años</span></div>
+   <div class="sst"><b>&minus;1,6 h</b><span>cae el promedio regional 2023&ndash;2030</span></div>
+   <div class="sst"><b>3</b><span>legislaciones explican toda la caída</span></div>
+   <div class="sst"><b>2030</b><span>año en que México termina su transición</span></div>`;
+}
+
+function todo(){render();scatter();tabla();}
+todo(); traslado(); brecha(); serie();
+</script>
+</body>
+</html>

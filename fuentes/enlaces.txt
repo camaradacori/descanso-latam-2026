@@ -1,0 +1,32 @@
+FUENTES — enlaces directos para auditoría
+=========================================
+
+[A] PRIMARIA — OIT, nota técnica sobre tiempo de trabajo (Gontero, oct. 2025)
+    Datos ILOSTAT 2023 · horas efectivas de asalariados · DOI 10.54394/ZSZI3837
+    https://www.ilo.org/sites/default/files/2025-11/NOTA%20TECNICASG_NOV2025%20ESP.pdf
+    Comunicado: https://www.ilo.org/es/resource/noticias/america-latina-trabaja-cinco-horas-mas-por-semana-que-los-paises-de-altos
+    Ficha:      https://www.ilo.org/es/publications/cuantas-horas-se-trabajan-en-america-latina-y-el-caribe-indicadores-del
+
+[A] PRIMARIA — calendarios oficiales de feriados 2026
+    Argentina: https://www.argentina.gob.ar/jefatura/feriados-nacionales-2026
+    Perú:      https://www.gob.pe/feriados
+
+[B] JORNADA LABORAL — verificación cruzada
+    https://www.elimparcial.com/mexico/2026/07/17/asi-quedan-las-jornadas-laborales-en-america-latina-con-colombia-en-42-horas-chile-rumbo-a-40-y-mexico-a-la-espera-de-iniciar-su-reduccion-gradual/
+    https://www.infobae.com/colombia/2026/07/15/jornada-laboral-en-colombia-bajo-a-42-horas-semanales-como-quedo-la-carga-laboral-con-respecto-a-otros-paises-de-la-region/
+    https://www.thomsonreuters.cl/es-cl/soluciones-juridicas/biblioteca-contenido-legal/reduccion-de-jornada-laboral-en-chile-guia-hacia-las-42-horas-en-20261
+
+[B] VACACIONES — regímenes de días corridos vs. hábiles
+    https://www.infobae.com/america/mundo/2024/07/07/cantidad-de-dias-corridos-o-habiles-como-son-las-vacaciones-en-el-mundo/
+
+[B] LEY DE TRASLADO
+    Ley Emiliani (Colombia): https://www.colombiacalendario.com.co/ley-emiliani.html
+
+[B] CASO PERÚ — horas por formalidad (EPEN/INEI vía ComexPerú)
+    https://www.comexperu.org.pe/en/articulo/trabajadores-formales-trabajan-mas-que-informales-por-costos-laborales
+
+[!] DESCARTADA — NO es la fuente correcta
+    BCRPData "Promedio de Horas de Trabajo" (CD10245DA)
+    https://estadisticas.bcrp.gob.pe/estadisticas/series/anuales/resultados/CD10245DA/html
+    Corresponde a braceros arroceros 1931-1944. Se deja registrada para evitar
+    que un auditor repita el mismo camino.

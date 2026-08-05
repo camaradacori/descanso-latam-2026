@@ -1,0 +1,12 @@
+﻿pais,unidad_vacaciones,vac_1a,vac_5a,vac_10a,vac_20a,feriados_2026,jornada_h_sem_2026,tope_diario_legal_h,norma_tope_diario,dias_lab_semana_derivado,dias_lab_semana_v2,horas_efectivas_asalariados_2023
+Perú,calendario,30,30,30,30,16,48,8.0,Const. art. 25 · D.Leg. 854,6.0,6.0,sin dato
+Panamá,calendario,30,30,30,30,12,48,8.0,CT art. 31,6.0,5.5,sin dato
+Brasil,calendario,30,30,30,30,10,44,8.0,CLT art. 58,5.5,5.0,sin dato
+Colombia,hábiles,15,15,15,15,18,42,10.0,Ley 2101 · distribuible en 5 días,5.0,5.0,46.6
+Chile,hábiles,15,15,15,18,17,42,10.0,"CT art. 28 · mín. 5 días, máx. 10 h",5.0,5.0,sin dato
+Argentina,corridos,14,21,28,35,16,48,9.0,Ley 11.544 art. 1 · sábado inglés,5.5,5.0,37.0
+Uruguay,hábiles,20,21,22,25,15,48,8.0,Ley 5.350,6.0,5.5,37.0
+Ecuador,calendario,15,15,20,30,12,40,8.0,CT art. 47 · 40 h en 5 días,5.0,5.0,sin dato
+Paraguay,hábiles,12,18,30,30,12,48,8.0,CL art. 194,6.0,5.0,sin dato
+Honduras,hábiles,10,20,20,20,11,44,8.0,CT art. 322,5.5,5.5,45.0
+México,hábiles,12,20,22,26,7,48,8.0,LFT art. 61,6.0,6.0,sin dato
